@@ -8,61 +8,15 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import TicketCard from '../components/TicketCard'; 
+import TicketCard from '../components/TicketCard';
 
-// --- (PERUBAHAN 1: Datanya gue tambahin jadi 4) ---
+// --- Data Dummy buat tiket (4 kartu) ---
 const ticketData = [
-  {
-    id: 1,
-    fromCode: 'NL',
-    fromCity: 'Rotterdam',
-    toCode: 'IDN',
-    toCity: 'Labuan Bajo',
-    departureTime: '5:30PM',
-    departureDate: 'Mon, 23 Jun',
-    arrivalTime: '3:30AM',
-    arrivalDate: 'Tue, 24 Jun',
-    price: 1700,
-  },
-  {
-    id: 2,
-    fromCode: 'NL',
-    fromCity: 'Rotterdam',
-    toCode: 'IDN',
-    toCity: 'Labuan Bajo',
-    departureTime: '5:30PM',
-    departureDate: 'Mon, 23 Jun',
-    arrivalTime: '3:30AM',
-    arrivalDate: 'Tue, 24 Jun',
-    price: 1700,
-  },
-  {
-    id: 3,
-    fromCode: 'NL',
-    fromCity: 'Rotterdam',
-    toCode: 'IDN',
-    toCity: 'Labuan Bajo',
-    departureTime: '5:30PM',
-    departureDate: 'Mon, 23 Jun',
-    arrivalTime: '3:30AM',
-    arrivalDate: 'Tue, 24 Jun',
-    price: 1700,
-  },
-  // --- INI TAMBAHAN KARTU KE-4 ---
-  {
-    id: 4,
-    fromCode: 'NL',
-    fromCity: 'Rotterdam',
-    toCode: 'IDN',
-    toCity: 'Labuan Bajo',
-    departureTime: '5:30PM',
-    departureDate: 'Mon, 23 Jun',
-    arrivalTime: '3:30AM',
-    arrivalDate: 'Tue, 24 Jun',
-    price: 1700,
-  },
+  { id: 1, fromCode: 'NL', fromCity: 'Rotterdam', toCode: 'IDN', toCity: 'Labuan Bajo', departureTime: '5:30PM', departureDate: 'Mon, 23 Jun', arrivalTime: '3:30AM', arrivalDate: 'Tue, 24 Jun', price: 1700 },
+  { id: 2, fromCode: 'NL', fromCity: 'Rotterdam', toCode: 'IDN', toCity: 'Labuan Bajo', departureTime: '5:30PM', departureDate: 'Mon, 23 Jun', arrivalTime: '3:30AM', arrivalDate: 'Tue, 24 Jun', price: 1700 },
+  { id: 3, fromCode: 'NL', fromCity: 'Rotterdam', toCode: 'IDN', toCity: 'Labuan Bajo', departureTime: '5:30PM', departureDate: 'Mon, 23 Jun', arrivalTime: '3:30AM', arrivalDate: 'Tue, 24 Jun', price: 1700 },
+  { id: 4, fromCode: 'NL', fromCity: 'Rotterdam', toCode: 'IDN', toCity: 'Labuan Bajo', departureTime: '5:30PM', departureDate: 'Mon, 23 Jun', arrivalTime: '3:30AM', arrivalDate: 'Tue, 24 Jun', price: 1700 },
 ];
-// --- AKHIR PERUBAHAN ---
 
 // Data for filter pills
 const filterPills = ['Hotel', 'Aircraft', 'Villa', 'Attraction'];
@@ -84,7 +38,9 @@ export default function TicketScreen() {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
-        {/* --- Header --- */}
+        {/* ... (Header, Location, Pills) ... */}
+        {/* (Kode di atas sini gak berubah) */}
+        
         <View style={styles.header}>
           <TouchableOpacity>
             <Ionicons name="arrow-back" size={24} color="#1E1E1E" />
@@ -95,7 +51,6 @@ export default function TicketScreen() {
           </TouchableOpacity>
         </View>
 
-        {/* --- Location Dropdown --- */}
         <View style={styles.locationContainer}>
           <Text style={styles.locationLabel}>Current locations</Text>
           <TouchableOpacity style={styles.locationButton}>
@@ -104,7 +59,6 @@ export default function TicketScreen() {
           </TouchableOpacity>
         </View>
 
-        {/* --- Filter Pills --- */}
         <ScrollView
           horizontal
           showsHorizontalScrollIndicator={false}
@@ -137,26 +91,37 @@ export default function TicketScreen() {
             <Text style={styles.calendarTitle}>June, 2025</Text>
             <Ionicons name="calendar-outline" size={20} color="#6B7C8F" />
           </View>
+          
+          {/* --- (PERUBAHAN 1: Layout Kalender Diubah) --- */}
           <View style={styles.calendarGrid}>
             {calendarDays.map((item) => (
-              <View key={item.date} style={styles.dayWrapper}>
-                <Text style={styles.dayLabel}>{item.day}</Text>
-                <TouchableOpacity
+              // Sekarang 'dayBox' adalah 1 frame utuh
+              <TouchableOpacity
+                key={item.date}
+                style={[
+                  styles.dayBox, // Style frame (kotak rounded)
+                  item.active && styles.dayBoxActive, // Style kalo aktif
+                ]}>
+                {/* Hari (S, M, T) */}
+                <Text
                   style={[
-                    styles.dateWrapper,
-                    item.active && styles.dateActive,
+                    styles.dayLabel,
+                    item.active && styles.dayLabelActive,
                   ]}>
-                  <Text
-                    style={[
-                      styles.dateText,
-                      item.active && styles.dateTextActive,
-                    ]}>
-                    {item.date}
-                  </Text>
-                </TouchableOpacity>
-              </View>
+                  {item.day}
+                </Text>
+                {/* Tanggal (22, 23, 24) */}
+                <Text
+                  style={[
+                    styles.dateText,
+                    item.active && styles.dateTextActive,
+                  ]}>
+                  {item.date}
+                </Text>
+              </TouchableOpacity>
             ))}
           </View>
+          {/* --- AKHIR PERUBAHAN --- */}
         </View>
 
         {/* --- Ticket Count --- */}
@@ -220,23 +185,23 @@ const styles = StyleSheet.create({
   },
   pill: {
     paddingVertical: 10,
-    paddingHorizontal: 18,
+    paddingHorizontal: 20,
     borderRadius: 20,
     marginRight: 10,
     justifyContent: 'center',
     alignItems: 'center',
   },
   pillActive: {
-    backgroundColor: '#FF7754', // Oranye
+    backgroundColor: '#FF7753', // Oranye
   },
   pillActiveText: {
     color: '#FFFFFF',
     fontWeight: 'bold',
   },
   pillInactive: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#EAE9D2',
     borderWidth: 1,
-    borderColor: '#E0E0E0',
+    borderColor: '#EAE9D2',
   },
   pillInactiveText: {
     color: '#6B7C8F',
@@ -261,33 +226,45 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
-  dayWrapper: {
-    alignItems: 'center',
-    width: '14%', // Bagi 7 hari
-  },
-  dayLabel: {
-    fontSize: 12,
-    color: '#6B7C8F',
-    marginBottom: 8,
-  },
-  dateWrapper: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
+  
+  // --- (PERUBAHAN 2: Style Kalender Diubah) ---
+  dayBox: { // Style 1 frame (kotak)
+    width: 48, // Lebar kotak
+    height: 70, // Tinggi kotak
+    borderRadius: 12, // Rounded
+    backgroundColor: '#EAE9D2', // Warna frame (putih/abu-abu muda di figma)
+    borderWidth: 1,
+    borderColor: '#EAE9D2',
     alignItems: 'center',
     justifyContent: 'center',
+    gap: 6, // Jarak antara hari dan tanggal
   },
-  dateText: {
-    fontSize: 16,
+  dayBoxActive: { // Style kalo aktif
+    backgroundColor: '#FF7753', // Oranye
+    borderColor: '#FF7753',
+  },
+  dayLabel: { // Teks hari (S, M, T)
+    fontSize: 14,
     fontWeight: '600',
     color: '#1E1E1E',
   },
-  dateActive: {
-    backgroundColor: '#FF7754',
-  },
-  dateTextActive: {
+  dayLabelActive: { // Teks hari kalo aktif
     color: '#FFFFFF',
   },
+  dateText: { // Teks tanggal (22, 23, 24)
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#1E1E1E',
+  },
+  dateTextActive: { // Teks tanggal kalo aktif
+    color: '#FFFFFF',
+  },
+  // --- Hapus style lama ---
+  // dayWrapper: { ... },
+  // dateWrapper: { ... },
+  // dateActive: { ... },
+  // --- AKHIR PERUBAHAN ---
+
   ticketCount: {
     fontSize: 16,
     fontWeight: '600',
